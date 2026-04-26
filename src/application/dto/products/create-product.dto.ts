@@ -1,5 +1,48 @@
-import { IsObject, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
-import { IsDecimal } from 'class-validator';
+import {
+  IsArray,
+  IsEnum,
+  IsObject,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+  ValidateNested,
+  IsDecimal,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { ProductStatus, ProductCondition } from '@prisma/client';
+
+export class CreateProductVariantDto {
+  @IsOptional()
+  @IsString()
+  @MaxLength(80)
+  size?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(80)
+  color?: string;
+
+  @IsOptional()
+  @IsDecimal({ decimal_digits: '0,2', force_decimal: false })
+  price?: string;
+
+  @IsOptional()
+  stock?: number;
+}
+
+export class CreateProductImageDto {
+  @IsString()
+  url!: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(200)
+  alt?: string;
+
+  @IsOptional()
+  sortOrder?: number;
+}
 
 export class CreateProductDto {
   @IsString()
@@ -26,7 +69,36 @@ export class CreateProductDto {
   category!: string;
 
   @IsOptional()
+  @IsString()
+  @MaxLength(80)
+  style?: string;
+
+  @IsOptional()
+  @IsEnum(ProductCondition)
+  condition?: ProductCondition;
+
+  @IsOptional()
+  @IsEnum(ProductStatus)
+  status?: ProductStatus;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  tags?: string[];
+
+  @IsOptional()
   @IsObject()
   attributes?: Record<string, unknown>;
-}
 
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateProductVariantDto)
+  variants?: CreateProductVariantDto[];
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateProductImageDto)
+  images?: CreateProductImageDto[];
+}

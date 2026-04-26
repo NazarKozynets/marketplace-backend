@@ -33,6 +33,7 @@ export class PrismaUserRepository implements UserRepository {
   private toEntity(user: PrismaUser): UserEntity {
     return new UserEntity(
       user.id,
+      user.shortId,
       user.email,
       user.passwordHash,
       user.role as unknown as Role,

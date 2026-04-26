@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateShopDto } from '../../application/dto/shops/create-shop.dto';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
@@ -21,8 +21,17 @@ export class ShopsController {
   async create(@CurrentUser() user: JwtPayload, @Body() dto: CreateShopDto) {
     return this.shops.createShop(user.sub, user.role, {
       name: dto.name,
+      slug: dto.slug,
       description: dto.description,
+      logoUrl: dto.logoUrl,
+      bannerUrl: dto.bannerUrl,
+      instagram: dto.instagram,
+      telegram: dto.telegram,
     });
   }
-}
 
+  @Get(':slug')
+  async getBySlug(@Param('slug') slug: string) {
+    return this.shops.getShopBySlug(slug);
+  }
+}

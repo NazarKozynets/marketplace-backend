@@ -7,15 +7,16 @@ import { PrismaService } from '../prisma/prisma.service';
 export class PrismaOrderRepository implements OrderRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(params: CreateOrderParams) {
+  async create(params: CreateOrderParams): Promise<{ id: string }> {
     const order = await this.prisma.order.create({
       data: {
         userId: params.userId,
-        status: (params.status ?? 'PENDING') as any,
+        status: params.status ?? 'PENDING',
         totalPrice: new Prisma.Decimal(params.totalPrice),
         items: {
           create: params.items.map((it) => ({
             productId: it.productId,
+            variantId: it.variantId ?? null,
             quantity: it.quantity,
             price: new Prisma.Decimal(it.price),
           })),
@@ -23,8 +24,6 @@ export class PrismaOrderRepository implements OrderRepository {
       },
       select: { id: true },
     });
-
     return { id: order.id };
   }
 }
-

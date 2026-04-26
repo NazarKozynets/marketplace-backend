@@ -31,7 +31,7 @@ export class AuthService {
     const tokens = await this.issueTokens(user.id, user.role);
     await this.persistRefreshToken(user.id, tokens.refreshToken);
 
-    return { user: { id: user.id, email: user.email, role: user.role }, ...tokens };
+    return { user: { shortId: user.shortId, email: user.email, role: user.role }, ...tokens };
   }
 
   async login(email: string, password: string) {
@@ -46,7 +46,7 @@ export class AuthService {
     const tokens = await this.issueTokens(user.id, user.role);
     await this.persistRefreshToken(user.id, tokens.refreshToken);
 
-    return { user: { id: user.id, email: user.email, role: user.role }, ...tokens };
+    return { user: { shortId: user.shortId, email: user.email, role: user.role }, ...tokens };
   }
 
   async refresh(refreshToken: string) {
@@ -63,7 +63,7 @@ export class AuthService {
     const tokens = await this.issueTokens(user.id, user.role);
     await this.persistRefreshToken(user.id, tokens.refreshToken);
 
-    return { user: { id: user.id, email: user.email, role: user.role }, ...tokens };
+    return { user: { shortId: user.shortId, email: user.email, role: user.role }, ...tokens };
   }
 
   async logout(refreshToken?: string) {

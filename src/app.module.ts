@@ -10,6 +10,9 @@ import { SellersModule } from './modules/sellers/sellers.module';
 import { ShopsModule } from './modules/shops/shops.module';
 import { ProductsModule } from './modules/products/products.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { ContentModule } from './modules/content/content.module';
+import { AnalyticsModule } from './modules/analytics/analytics.module';
+import { SubscriptionModule } from './modules/subscription/subscription.module';
 
 @Module({
   imports: [
@@ -24,6 +27,9 @@ import { OrdersModule } from './modules/orders/orders.module';
     ShopsModule,
     ProductsModule,
     OrdersModule,
+    ContentModule,
+    AnalyticsModule,
+    SubscriptionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

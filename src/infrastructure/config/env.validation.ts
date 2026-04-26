@@ -26,6 +26,10 @@ class EnvironmentVariables {
   @IsOptional()
   @IsString()
   COOKIE_SECRET?: string;
+
+  @IsOptional()
+  @IsString()
+  CORS_ORIGIN?: string;
 }
 
 export function validateEnv(config: Record<string, unknown>) {

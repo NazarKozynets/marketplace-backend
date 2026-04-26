@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { Role } from '../../domain/entities/role';
 import type { SellerRepository } from '../../domain/repositories/seller.repository';
 import type { CreateShopParams, ShopRepository } from '../../domain/repositories/shop.repository';
@@ -22,7 +22,13 @@ export class ShopsService {
       throw new ForbiddenException('Seller not approved');
     }
 
+    const existing = await this.shops.findBySlug(params.slug);
+    if (existing) throw new ConflictException('Slug already taken');
+
     return this.shops.create({ ...params, ownerId: seller.id });
   }
-}
 
+  async getShopBySlug(slug: string) {
+    return this.shops.findBySlug(slug);
+  }
+}

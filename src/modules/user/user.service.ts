@@ -9,7 +9,7 @@ export class UserService {
   async findById(id: string) {
     const user = await this.users.findById(id);
     if (!user) return null;
-    return { id: user.id, email: user.email, role: user.role, createdAt: user.createdAt };
+    return { shortId: user.shortId, email: user.email, role: user.role, createdAt: user.createdAt };
   }
 }
 
